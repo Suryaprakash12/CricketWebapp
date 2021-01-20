@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+   xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+        <style>
+
+        .x
+        {
+            text-decoration-style: none;
+            text-align:center;
+            font-size: 20px;
+            color:grey;
+
+
+        }
+        .y
+        {
+            padding:30px;
+            text-align:center;
+
+        }
+        body{
+            background-color:beige;
+        }
+
+        </style>
+        <nav class="navbar navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">CricFunzz</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="index">Home 
+        </a>
+        
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="calendar">Match Calendar</a>
+      </li>
+      <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+      <li class="nav-item">
+        
+          <a class="nav-link" href="livescores">Live Scores</a>
+          <a class="nav-link" href="recentmatches.html">Player Stats</a>
+         
+          <a class="nav-link" href="#">Sports News</a>
+          <a class="nav-link" href="#">Contact us</a>
+        
+      </li>
+    
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+        </nav>
+        </head>
+    <body>
+        <div id="x">
+        
+        </div>
+       <!-- <button type="button" id="y" class="btn btn-success">Success</button>-->
+        <script>
+            
+            var btn=document.getElementById('y');
+            var con=document.getElementById('x');
+          //  btn.addEventListener("click",function()
+           // {
+                
+                var req=new XMLHttpRequest();
+            req.open('GET','https://gnews.io/api/v3/topics/sports?token=33b2b0627873137b7ffe67e05cf36cb3');
+            req.onload=function()
+            {
+                var data=JSON.parse(req.responseText);
+                
+                    console.log(data.articles);
+                    renderhtml(data.articles);
+                    /**
+                    var url = 'http://newsapi.org/v2/top-headlines?' +
+                    'country=us&' +
+                    'apiKey=76400671e67f47fb9a8e2cd946efb07b';
+                        var req = new Request(url);
+                        fetch(req)
+                            .then(function(response) {
+                                console.log(response.json());
+                                
+                            })**/
+                
+              
+            }
+            
+            req.send(); 
+           // });
+
+          function renderhtml(dat)
+          {
+            var html="";
+            for(i=0;i<dat.length;i++)
+            {
+               // html+="<h1 class='y'>"+dat[i].title+"</h1>"+"<br/>"+"<p>"+dat[i].publishedAt+"<br/>"+"To study detail,click the link..."+"<a class='x' href="+dat[i].source.url+" target=_blank> click </a>"+"</p>"+"<hr/>"
+                //console.log(dat[i].team-1);
+                html+= '<div class="card">'+ '<h5 class="card-header">'+'Todays News' +'</h5>'+' <div class="card-body">'+'<h5 class="card-title">'+dat[i].title+'</h5>'+'<p class="card-text">'+dat[i].publishedAt+'</p>'+"To study detail,click the link..."+"<a class='x' href="+dat[i].source.url+" target=_blank> click </a>"+"</div> </div>"
+            }
+            con.insertAdjacentHTML('beforeend',html);
+          }
+          /**
+          <div class="card">
+  <h5 class="card-header">Featured</h5>
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>**/
+    
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </body>
+</html>
+
+
+

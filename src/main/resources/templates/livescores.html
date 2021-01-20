@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+   xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>Home</title>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+
+
+
+</head>
+
+<nav class="navbar navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">CricFunzz</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="index">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="calendar">Match Calendar</a>
+      </li>
+      <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+      <li class="nav-item">
+        
+          <a class="nav-link" href="livescores">Live Scores</a>
+          <a class="nav-link" href="recentmatches.html">Player Stats</a>
+         
+          <a class="nav-link" href="news">Sports News</a>
+          <a class="nav-link" href="#">Contact us</a>
+        
+      </li>
+    
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+
+
+</nav>
+<style>
+.container
+{
+margin:20px;
+padding:20px;
+align-items:center;
+}
+.container .btn-btn-success
+{
+align-items:center;
+}
+</style>
+
+<body>
+
+ <div  class="container" id="x">
+ <!-- 
+ <div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="from">From</span>
+  </div>
+  <input type="text" class="form-control" placeholder="Date" aria-label="Username" aria-describedby="basic-addon1">
+</div>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="to">To</span>
+  </div>
+  <input type="text" class="form-control" placeholder="Date" aria-label="Username" aria-describedby="basic-addon1">
+</div>-->
+
+<h3 style="color:grey">Click the Below button to see the List of matches happened recently.</h3>
+<hr/>
+  <button type="button" id="y" class="btn btn-success">Click here for magic</button>
+      
+        
+</div>
+      
+      
+      
+    
+      <script>
+
+      var today = new Date();
+
+      var date1 = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+      var date2 = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()-1;
+
+
+     var btn=document.getElementById('y');
+     var con=document.getElementById('x');
+     var from=document.getElementById('from');
+     var to=document.getElementById('to');
+     btn.addEventListener("click",function()
+     {
+    	 
+         var req=new XMLHttpRequest();
+        
+     req.open('GET',"https://allsportsapi.com/api/cricket/?met=Fixtures&APIkey=0d6f8e7121bf3879ff482f8197282dd9631064999f871c6a9f1d0f60524086ed&from=2020-08-20&to=2020-08-22");
+     req.onload=function()
+     {
+         var data=JSON.parse(req.responseText);
+         
+         
+            // console.log(data.result);
+             renderhtml(data.result);
+         
+       
+     };
+     
+     
+     
+     req.send(); 
+     });
+   function renderhtml(dat)
+   {
+     var html="";
+     for(i=0;i<dat.length;i++)
+     {
+    	 var k=dat[i].event_key;
+         html+="<h1>"+dat[i].league_name+"</h1>"+" <h3 style=color:grey>"+"From "+dat[i].event_date_start+" to "+dat[i].event_date_stop+"</h3>"+"<br>"+"<h3>"+" Team-1 is :"+"</h3>"+"<br>"+"<h5>" +dat[i].event_home_team + "."+"</h5>"+"<br>"+"<h3>"+" Team-2 is : "+"</h3>"+"<br>"+"<h5>"+dat[i].event_away_team
+            + "<h5>"+"Result is : "+ dat[i].event_status_info +"</h5>"+"<hr/>"+"to see in raw form"+"<a class='x' href="+"https://allsportsapi.com/api/cricket/?met=Fixtures&APIkey=0d6f8e7121bf3879ff482f8197282dd9631064999f871c6a9f1d0f60524086ed&from=2020-08-20&to=2020-08-22"+'event_key='+k+" target=_blank> click </a>";
+         console.log(dat[i].team-1);
+         
+     }
+     con.insertAdjacentHTML('beforeend',html);
+   }
+
+ </script>
+
+
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    
+</body>
